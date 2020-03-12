@@ -22,11 +22,21 @@ class Enemy extends Element {
         super.render();
     }
 
+    checkCollision(enemy) {
+        if (enemy.y + 50 > player.y && enemy.y - 50 < player.y) {
+            if (enemy.x + 50 > player.x && enemy.x - 50 < player.x) {
+                score -= 1;
+                console.log('oh noo')
+            }
+        }
+    }
+
     update(dt) {
         this.x += dt * this.speed
         if (this.x >= 510) {
             this.x = -100;
         }
+        this.checkCollision(this);
     }
 }
 
@@ -78,13 +88,16 @@ class Player extends Element {
     }
 }
 
+
 let allEnemies = [];
 
 const player = new Player(200, 300, 'images/char-boy.png')
 const enemy1 = new Enemy(Math.random() * 184 + 50, Math.random() * 256, 'images/enemy-bug.png', 500)
+const enemy2 = new Enemy(Math.random() * 184 + 50, Math.random() * 256, 'images/enemy-bug.png', 300)
+let score = 10;
 
 allEnemies.push(enemy1)
-
+allEnemies.push(enemy2)
 
 
 document.addEventListener('keyup', function(e) {
