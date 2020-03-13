@@ -16,6 +16,7 @@ class Enemy extends Element {
         super(x, y)
         this.speed = speed;
         this.sprite = sprite;
+        this.collisionDistance = 30;
     }
 
     render() {
@@ -23,11 +24,9 @@ class Enemy extends Element {
     }
 
     checkCollision(enemy) {
-        if (enemy.y + 50 > player.y && enemy.y - 50 < player.y) {
-            if (enemy.x + 50 > player.x && enemy.x - 50 < player.x) {
-                score -= 1;
-                console.log('oh noo')
-            }
+        if ((Math.pow((enemy.x - player.x), 2) + Math.pow((enemy.y - player.y), 2)) < Math.pow((this.collisionDistance), 2)) {
+            score -= 1;
+            console.log('oh noo')
         }
     }
 
@@ -62,7 +61,7 @@ class Player extends Element {
                     this.y = 0;
                 }
                 break
-                
+
             case 'down':
                 this.y += 20;
                 if (this.y > 420 ) {
@@ -78,7 +77,7 @@ class Player extends Element {
                 break
 
             case 'right':
-                this.x += 20; 
+                this.x += 20;
                 if (this.x > 420) {
                     this.x = 420;
                 }
