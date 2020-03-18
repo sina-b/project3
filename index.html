@@ -3,11 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>My Arcade Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+    <div>
+        <p> Your current score is <span class="score">10</span></p>
+    </div>
+    <div class="container">
+        <div class="modal fade" id="modal-popup" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><span class="message"></span></h4>
+              </div>
+              <div class="modal-body">
+                <p> Your score is <span class="currentScore"></span></p>
+                <p>Do you want to play again? Click the restart button!</p>
+                <button class="play-again">Restart</button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>
+    
 </body>
 </html>

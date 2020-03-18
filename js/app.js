@@ -16,7 +16,7 @@ class Enemy extends Element {
         super(x, y)
         this.speed = speed;
         this.sprite = sprite;
-        this.collisionDistance = 30;
+        this.collisionDistance = 75;
     }
 
     render() {
@@ -25,17 +25,19 @@ class Enemy extends Element {
 
     checkCollision(enemy) {
         if ((Math.pow((enemy.x - player.x), 2) + Math.pow((enemy.y - player.y), 2)) < Math.pow((this.collisionDistance), 2)) {
-            score -= 1;
-            console.log('oh noo')
+            currentScore -= 1;
+            score.innerHTML = currentScore;
         }
     }
 
     update(dt) {
-        this.x += dt * this.speed
-        if (this.x >= 510) {
-            this.x = -100;
+        if (!pause) {
+            this.x += dt * this.speed
+            if (this.x >= 510) {
+                this.x = -100;
+            }
+            this.checkCollision(this);
         }
-        this.checkCollision(this);
     }
 }
 
@@ -50,7 +52,23 @@ class Player extends Element {
         super.render();
     }
 
+    checkWin(player) {
+        if (player.y === 0){
+            pause = true;
+            modalAppear('Good game, you won!');
+        }
+    }
+
+    checkDeath() {
+        if (currentScore <= 0) {
+            pause = true;
+            modalAppear('Oh no, you lost');
+        }
+    }
+
     update(dt) {
+        this.checkWin(this);
+        this.checkDeath();
     }
 
     handleInput(key) {
@@ -82,10 +100,39 @@ class Player extends Element {
                     this.x = 420;
                 }
                 break
-
+            case 'space':
+                pauseGame();
+                break;
         }
     }
 }
+
+//create the modal
+let modalAppear = function(message) {
+    $(document).ready(function () {
+        $('#modal-popup').modal('show');
+        });
+    document.querySelector(".message").innerHTML = message;
+    document.querySelector(".currentScore").innerHTML = currentScore;
+    closeModal();
+  };
+
+let pauseGame = function() {
+    if (!pause) {
+        pause = true;
+    }
+    else {
+        pause = false;
+    }
+};
+
+//close modal
+function closeModal() {
+    button.addEventListener("click", function() {
+      $('#modal-popup').modal('hide');
+      location.reload()
+    });
+  }
 
 
 let allEnemies = [];
@@ -93,7 +140,11 @@ let allEnemies = [];
 const player = new Player(200, 300, 'images/char-boy.png')
 const enemy1 = new Enemy(Math.random() * 184 + 50, Math.random() * 256, 'images/enemy-bug.png', 500)
 const enemy2 = new Enemy(Math.random() * 184 + 50, Math.random() * 256, 'images/enemy-bug.png', 300)
-let score = 10;
+const score = document.querySelector(".score");
+const button = document.querySelector(".play-again");
+
+let pause = false;
+let currentScore = 10;
 
 allEnemies.push(enemy1)
 allEnemies.push(enemy2)
@@ -104,8 +155,9 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        32: 'space',
     };
 
-    player.handleInput(allowedKeys[e.keyCode]);
+    player.handleInput(allowedKeys[e.keyCode], pause);
 });
