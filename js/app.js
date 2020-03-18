@@ -137,7 +137,7 @@ function closeModal() {
 
 let allEnemies = [];
 
-const player = new Player(200, 300, 'images/char-boy.png')
+const player = new Player(200, 380, 'images/char-boy.png')
 const enemy1 = new Enemy(Math.random() * 184 + 50, Math.random() * 256, 'images/enemy-bug.png', 500)
 const enemy2 = new Enemy(Math.random() * 184 + 50, Math.random() * 256, 'images/enemy-bug.png', 300)
 const score = document.querySelector(".score");
